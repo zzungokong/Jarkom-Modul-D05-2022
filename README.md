@@ -194,3 +194,16 @@ netmask 255.255.252.0
 gateway 192.186.6.1
 ```  
 
+# Routing Strix
+Pada routing, subnet bagian bawah diatur agar melewati westalis dan subnet bagian kanan melewati ostania.
+```
+# kanan
+route add -net 192.186.4.0 netmask 255.255.255.248 gw 192.186.6.86
+route add -net 192.186.6.0 netmask 255.255.255.128 gw 192.186.6.86
+route add -net 192.186.6.72 netmask 255.255.252.0 gw 192.186.6.86
+
+# bawah
+route add -net 192.186.0.0 netmask 255.255.254.0 gw 192.186.6.81
+route add -net 192.186.6.128 netmask 255.255.255.0 gw 192.186.6.81
+route add -net 192.186.6.64  netmask 255.255.255.248 gw 192.186.6.81
+```  
