@@ -59,3 +59,138 @@ Maka didapat topologi seperti ini:
 
 Selanjutnya dilakukan konfigurasi per nodenya  
 
+### Node Eden  
+```
+auto eth0
+iface eth0 inet static
+address 192.186.6.66
+netmask 255.255.255.248
+gateway 192.186.6.65
+```  
+### Node Wise  
+```
+auto eth0
+iface eth0 inet static
+address 192.186.6.67
+netmask 255.255.255.248
+gateway 192.186.6.65
+```  
+### Router Westalis  
+```
+auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet static
+address 192.186.6.82
+netmask 255.255.255.252
+gateway 192.186.6.81
+
+auto eth1
+iface eth1 inet static
+address 192.186.0.1
+netmask 255.255.252.0
+
+auto eth2
+iface eth1 inet static
+address 192.186.6.129
+netmask 255.255.252.128
+
+auto eth3
+iface eth1 inet static
+address 192.186.6.65
+netmask 255.255.255.248
+```  
+### Router Strix
+```
+auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet dhcp
+
+auto eth1
+iface eth1 inet static
+address 192.186.6.85
+netmask 255.255.255.252
+
+auto eth2
+iface eth2 inet static
+address 192.186.6.82
+netmask 255.255.255.252
+```
+### Node Garden
+```
+auto eth0
+iface eth0 inet static
+address 192.186.6.74
+netmask 255.255.255.248
+gateway 192.186.6.73
+```  
+### Node SSS
+```
+auto eth0
+iface eth0 inet static
+address 192.186.6.75
+netmask 255.255.255.248
+gateway 192.186.6.73
+```  
+### Node Ostania
+```
+auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet static
+address 192.186.6.86
+netmask 255.255.255.252
+gateway 192.186.6.85
+
+auto eth1
+iface eth1 inet static
+address 192.186.4.1
+netmask 255.255.254.0
+
+auto eth2
+iface eth2 inet static
+address 192.186.6.1
+netmask 255.255.255.192
+
+auto eth3
+iface eth3 inet static
+address 192.200.6.73
+netmask 255.255.255.248
+```  
+### Node Forger
+```
+auto eth0
+iface eth0 inet static
+address 192.186.6.130
+netmask 255.255.252.0
+gateway 192.186.6.129
+```  
+### Node Desmond
+```
+auto eth0
+iface eth0 inet static
+address 192.186.0.2
+netmask 255.255.252.0
+gateway 192.186.0.1
+```  
+### Node Blackbell
+```
+auto eth0
+iface eth0 inet static
+address 192.186.4.2
+netmask 255.255.252.0
+gateway 192.186.4.1
+```  
+### Node Briar
+```
+auto eth0
+iface eth0 inet static
+address 192.186.6.2
+netmask 255.255.252.0
+gateway 192.186.6.1
+```  
+
