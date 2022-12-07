@@ -255,7 +255,7 @@ subnet 192.186.4.0 netmask 255.255.254.0 {
 	range 192.186.4.2 192.186.5.254;
 	option routers 192.186.4.1;
 	option broadcast-address 192.186.5.255;
-	option domain-name-servers 192.186.6.66;
+	option domain-name-servers 192.186.6.67;
 	default-lease-time 600;
 	max-lease-time 7200;
 }
@@ -265,7 +265,7 @@ subnet 192.186.6.0 netmask 255.255.255.192 {
 	range 192.186.6.2 192.186.6.62;
 	option routers 192.186.6.1;
 	option broadcast-address 192.186.6.63;
-	option domain-name-servers 192.186.6.66;
+	option domain-name-servers 192.186.6.67;
 	default-lease-time 600;
 	max-lease-time 7200;
  
@@ -274,7 +274,7 @@ subnet 192.186.0.0 netmask 255.255.252.0 {
 	range 192.186.0.2 192.186.3.254;
 	option routers 192.186.0.1;
 	option broadcast-address 192.186.3.255;
-	option domain-name-servers 192.186.6.66;
+	option domain-name-servers 192.186.6.67;
 	default-lease-time 600;
 	max-lease-time 7200;
 }
@@ -284,7 +284,7 @@ subnet 192.186.6.128 netmask 255.255.255.128 {
 	range 192.186.6.130 192.186.6.254;
 	option routers 192.186.6.129;
 	option broadcast-address 192.186.6.255;
-	option domain-name-servers 192.186.6.66;
+	option domain-name-servers 192.186.6.67;
 	default-lease-time 600;
 	max-lease-time 7200;
  
