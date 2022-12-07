@@ -158,7 +158,7 @@ netmask 255.255.255.192
 
 auto eth3
 iface eth3 inet static
-address 192.200.6.73
+address 192.186.6.73
 netmask 255.255.255.248
 ```  
 ### Node Forger
