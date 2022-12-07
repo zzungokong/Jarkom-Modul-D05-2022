@@ -228,10 +228,12 @@ apt-get install isc-dhcp-server
 ### Konfiguraso DHCP Server
 **A. Menentukan interface mana yang akan diberi layanan DHCP**  
 A.1. Buka file konfigurasi interface  
-edit file konfigurasi isc-dhcp-server pada /etc/default/isc-dhcp-server  
+edit file konfigurasi isc-dhcp-server pada ```/etc/default/isc-dhcp-server```    
 
 A.2. Tentukan interface  
 Coba perhatikan topologi yang telah kalian buat. Contoh dari topologi yang dibuat adalah interface dari server Wise yang menuju ke switch bawah adalah eth0, maka kita akan memilih interface eth0 untuk diberikan layanan DHCP.  
+<img width="704" alt="Screenshot 2022-12-07 at 11 46 50 AM" src="https://user-images.githubusercontent.com/57696730/206090816-6b9faf54-a413-49a0-90fe-16887e0f39f9.png">
+
 
 **B. Melakukan konfigurasi pada isc-dhcp-server**
 Ada banyak hal yang dapat dikonfigurasi, antara lain:
@@ -244,6 +246,47 @@ dll.
 ```  
 
 B.1. Buka file konfigurasi DHCP dengan perintah
-Edit file konfigurasi isc-dhcp-server pada /etc/dhcp/dhcpd.conf  
+Edit file konfigurasi isc-dhcp-server pada ```/etc/dhcp/dhcpd.conf```  
 
 B.2. Tambahkan script berikut
+```
+# Blackbell A5
+subnet 192.186.4.0 netmask 255.255.254.0 {
+	range 192.186.4.2 192.186.5.254;
+	option routers 192.186.4.1;
+	option broadcast-address 192.186.5.255;
+	option domain-name-servers 192.186.6.66;
+	default-lease-time 600;
+	max-lease-time 7200;
+}
+
+# Briar A6
+subnet 192.186.6.0 netmask 255.255.255.192 {
+	range 192.186.6.2 192.186.6.62;
+	option routers 192.186.6.1;
+	option broadcast-address 192.186.6.63;
+	option domain-name-servers 192.186.6.66;
+	default-lease-time 600;
+	max-lease-time 7200;
+ 
+# Desmond A8
+subnet 192.186.0.0 netmask 255.255.252.0 {
+	range 192.186.0.2 192.186.3.254;
+	option routers 192.186.0.1;
+	option broadcast-address 192.186.3.255;
+	option domain-name-servers 192.186.6.66;
+	default-lease-time 600;
+	max-lease-time 7200;
+}
+
+# Forger A2
+subnet 192.186.6.128 netmask 255.255.255.128 {
+	range 192.186.6.130 192.186.6.254;
+	option routers 192.186.6.129;
+	option broadcast-address 192.186.6.255;
+	option domain-name-servers 192.186.6.66;
+	default-lease-time 600;
+	max-lease-time 7200;
+ 
+}
+```
