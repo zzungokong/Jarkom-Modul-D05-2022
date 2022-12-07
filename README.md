@@ -207,3 +207,34 @@ route add -net 192.186.0.0 netmask 255.255.252.0 gw 192.186.6.81
 route add -net 192.186.6.128 netmask 255.255.255.128 gw 192.186.6.81
 route add -net 192.186.6.64  netmask 255.255.255.248 gw 192.186.6.81
 ```  
+
+# DHCP
+### Instalasi ISC-DHCP-Server
+Selanjutnya Wise sebagai DHCP server, install isc-dhcp-server di Wise  
+```
+apt-get update
+apt-get install isc-dhcp-server
+```  
+
+### Konfiguraso DHCP Server
+**A. Menentukan interface mana yang akan diberi layanan DHCP**  
+A.1. Buka file konfigurasi interface  
+edit file konfigurasi isc-dhcp-server pada /etc/default/isc-dhcp-server  
+
+A.2. Tentukan interface  
+Coba perhatikan topologi yang telah kalian buat. Contoh dari topologi yang dibuat adalah interface dari server Wise yang menuju ke switch bawah adalah eth0, maka kita akan memilih interface eth0 untuk diberikan layanan DHCP.  
+
+**B. Melakukan konfigurasi pada isc-dhcp-server**
+Ada banyak hal yang dapat dikonfigurasi, antara lain:
+```
+Range IP
+DNS Server
+Informasi Netmask
+Default Gateway
+dll.
+```  
+
+B.1. Buka file konfigurasi DHCP dengan perintah
+Edit file konfigurasi isc-dhcp-server pada /etc/dhcp/dhcpd.conf  
+
+B.2. Tambahkan script berikut
