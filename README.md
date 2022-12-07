@@ -248,7 +248,7 @@ dll.
 B.1. Buka file konfigurasi DHCP dengan perintah
 Edit file konfigurasi isc-dhcp-server pada ```/etc/dhcp/dhcpd.conf```  
 
-B.2. Tambahkan script berikut
+B.2. Tambahkan script berikut  
 ```
 subnet 192.186.6.64 netmask 255.255.255.0 {
         option routers 192.186.6.65;
@@ -294,3 +294,13 @@ subnet 192.186.6.128 netmask 255.255.255.128 {
  
 }
 ```
+***Lalu Westalis sebagai DHCP Relay***  
+```
+apt-get update
+apt-get install isc-dhcp-relay -y
+```  
+disini kita akan melakukan forward DHCP server dari ```IP 192.186.6.67``` karena WISE memiliki IP address tersebut dan sesuai topologi, kita juga akan melakukan forward pada eth1 eth2 eth3  
+lalu kita akan memulai relay dengan command  
+```
+service isc-dhcp-relay start
+```  
