@@ -82,9 +82,9 @@ iface lo inet loopback
 
 auto eth0
 iface eth0 inet static
-address 192.186.6.82
+address 192.186.6.81
 netmask 255.255.255.252
-gateway 192.186.6.81
+gateway 192.186.6.82
 
 auto eth1
 iface eth1 inet static
@@ -92,12 +92,12 @@ address 192.186.0.1
 netmask 255.255.252.0
 
 auto eth2
-iface eth1 inet static
+iface eth2 inet static
 address 192.186.6.129
 netmask 255.255.252.128
 
 auto eth3
-iface eth1 inet static
+iface eth3 inet static
 address 192.186.6.65
 netmask 255.255.255.248
 ```  
@@ -166,7 +166,7 @@ netmask 255.255.255.248
 auto eth0
 iface eth0 inet static
 address 192.186.6.130
-netmask 255.255.252.0
+netmask 255.255.255.128
 gateway 192.186.6.129
 ```  
 ### Node Desmond
@@ -200,10 +200,10 @@ Pada routing, subnet bagian bawah diatur agar melewati westalis dan subnet bagia
 # kanan
 route add -net 192.186.4.0 netmask 255.255.255.248 gw 192.186.6.86
 route add -net 192.186.6.0 netmask 255.255.255.128 gw 192.186.6.86
-route add -net 192.186.6.72 netmask 255.255.252.0 gw 192.186.6.86
+route add -net 192.186.6.72 netmask 255.255.255.248 gw 192.186.6.86
 
 # bawah
-route add -net 192.186.0.0 netmask 255.255.254.0 gw 192.186.6.81
-route add -net 192.186.6.128 netmask 255.255.255.0 gw 192.186.6.81
+route add -net 192.186.0.0 netmask 255.255.252.0 gw 192.186.6.81
+route add -net 192.186.6.128 netmask 255.255.255.128 gw 192.186.6.81
 route add -net 192.186.6.64  netmask 255.255.255.248 gw 192.186.6.81
 ```  
