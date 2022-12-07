@@ -209,6 +209,15 @@ route add -net 192.186.6.64  netmask 255.255.255.248 gw 192.186.6.81
 ```  
 
 # DHCP
+Sebelum melakukan instalasi, jalankan  
+```
+iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE -s 192.186.0.0/16
+```  
+pada router Strix
+Dan untuk setiap node, jalankan  
+```
+echo nameserver 192.168.122.1 > /etc/resolv.conf
+```  
 ### Instalasi ISC-DHCP-Server
 Selanjutnya Wise sebagai DHCP server, install isc-dhcp-server di Wise  
 ```
