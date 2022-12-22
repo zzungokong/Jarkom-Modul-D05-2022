@@ -304,3 +304,105 @@ lalu kita akan memulai relay dengan command
 ```
 service isc-dhcp-relay start
 ```  
+Eden sebagai DNS Server:
+```
+echo "nameserver 192.168.122.1" > /etc/resolv.conf
+apt update
+apt install bind9 -y
+echo 'options {
+	directory "/var/cache/bind" ;
+	forwarders {
+		192.168.122.1;
+	allow-query { any; ) ;
+	auth-nxdomain no;	
+	listen-on-v6 { any; ) ;
+> /etc/bind/named.conf.options
+service bind9 restart
+```
+Ostania dan Westalis sebagai DHCP Relay:
+```
+apt-get update
+apt-get install isc-dhcp-relay
+
+echo ;
+SERV'RS-"192.186.7.131"
+ethi eth2 eth3"
+OPTIONS=""
+'>/etc/defautt/isc-dhcp- relay
+service isc-dhcp-relay restart
+```
+Garden dan SSS sebagai Web Server:
+```
+apt-get update
+apt-get install apache2 -Y
+service apache2 start
+echo "$HOSTNAME" > /var/www/htmt/index.htmtl
+
+```
+
+1. Agar topologi yang kalian buat dapat mengakses keluar, kalian diminta untuk mengkonfigurasi Strix menggunakan iptables, tetapi Loid tidak ingin menggunakan MASQUERADE.
+Script pada Strix:
+```
+IPETH0="$(ip -br a | grep eth0 | awk '{print $NF}' | cut -d'/' -f1)"
+iptables -t nat 0A POSTROUTING -o eth 0 -j SNAT --to-source "$IPETH0" -s 192.186.0.0/21
+```
+2. Kalian diminta untuk melakukan drop semua TCP dan UDP dari luar Topologi kalian pada server yang merupakan DHCP Server demi menjaga keamanan.
+Script pada Strix:
+```
+iptables -A FORWARD -d 192.186.6.121 -i eth0 -p tcp -j DROP
+iptables -A FORWARD -d 192.186.6.121 -i eth0 -p udp -j DROP
+```
+3. Loid meminta kalian untuk membatasi DHCP dan DNS Server hanya boleh menerima maksimal 2 koneksi ICMP secara bersamaan menggunakan iptables, selebihnya didrop.
+Script pada Eden dan Wise:
+```
+iptables -A INPUT -m state --state ESTABLISHED.RELATED -j ACCEPT
+iptables -A INPUT -p icmp -m connlimit --connlimit-above 2 --connlimit-mask 0 -j DROP
+```
+
+4. Akses menuju Web Server hanya diperbolehkan disaat jam kerja yaitu Senin sampai Jumat pada pukul 07.00 - 16.00.
+Script pada Garden:
+```
+iptables -A INPUT -s 192.186.7.131/25 -m time --timestart 07:00 --timestop 16:00 --weekdays Mon,Tue,Wed,Thu,Fri -j ACCEPT
+iptables -A INPUT -s 192.186.7.131/25 -j REJECT
+```
+Script pada SSS:
+```
+iptables -A INPUT -s 192.186.7.132/25 -m time --timestart 07:00 --timestop 16:00 --weekdays Mon,Tue,Wed,Thu,Fri -j ACCEPT
+iptables -A INPUT -s 192.186.7.132/25 -j REJECT
+```
+5. Karena kita memiliki 2 Web Server, Loid ingin Ostania diatur sehingga setiap request dari client yang mengakses Garden dengan port 80 akan didistribusikan secara bergantian pada SSS dan Garden secara berurutan dan request dari client yang mengakses SSS dengan port 443 akan didistribusikan secara bergantian pada Garden dan SSS secara berurutan.
+Script pada Garden:
+```
+iptables -A prerouting -t -nat -p tcp --dport80 -d 192.186.7.131 -m statistic --mode nth --every 2 --packet 0 -j DNAT --to-destination 192.186.7.132
+
+iptables -A prerouting -t -nat -p tcp --dport80 -d 192.186.7.131 -j DNAT --to-destination 192.186.7.132
+
+iptables -A INPUT -s 192.186.7.131/25 -j REJECT
+```
+
+Script pada SSS:
+```
+iptables -A prerouting -t -nat -p tcp --dport80 -d 192.186.7.132 -m statistic --mode nth --every 2 --packet 0 -j DNAT --to-destination 192.186.7.131
+
+iptables -A prerouting -t -nat -p tcp --dport80 -d 192.186.7.132 -j DNAT --to-destination 192.186.7.131
+```
+
+6. Karena Loid ingin tau paket apa saja yang di-drop, maka di setiap node server dan router ditambahkan logging paket yang di-drop dengan standard syslog level.
+Script pada Strix:
+```
+iptables -N LOGGING
+iptables -A INPUT -j LOGGING
+iptables -A OUTPUT -j LOGGING
+iptables -A LOGGING -m limit --limit 2/min -j LOG --log-prefix "IPTables-Dropped: " --log-level 4
+iptables -A LOGGING -j DROP
+
+echo '
+kern.warning/var/log/iptables.log
+' >> /etc/rsyslog.conf
+/etc/init.d/rsyslog restart
+```
+
+
+
+
+
